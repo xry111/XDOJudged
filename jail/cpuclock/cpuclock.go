@@ -57,6 +57,10 @@ func New(proc *os.Process) (clock CPUClock, err error) {
 }
 
 // GetTime returns the time of the CPUClock.
+//
+// NOTE: to get the total CPU time of Process p, we need to use GetTime
+// before calling p.Wait().  Or the process identifier of p would be
+// released and we would get EINVAL.
 func (clock CPUClock) GetTime() (t time.Time, err error) {
 	var ts syscall.Timespec
 
